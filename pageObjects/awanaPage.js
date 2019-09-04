@@ -10,10 +10,9 @@ var awanaCommands = {
             .click('@login')
             .moveToElement('@noAccount', 1, 1)
             .click('@noAccount')
-            .pause(1000)
+            .pause(1500)
         this
             // email
-            .waitForElementVisible('@signUpEmail', 8000)
             .setValue('@signUpEmail', data)
             //first name
             .setValue('@signUpFirstName', "Auto")
@@ -46,7 +45,6 @@ var awanaCommands = {
     createLoginNewMem: function (data) {
         this
             // email
-            .waitForElementVisible('@signUpEmail', 8000)
             .setValue('@signUpEmail', data)
             //first name
             .setValue('@signUpFirstName', "Auto")
@@ -82,9 +80,9 @@ var awanaCommands = {
             .maximizeWindow()
             .click('@findAwana')
             .setValue('@input', [data, browser.Keys.ENTER])
-            this.verify.visible('@resultsBox', 8000)
-            this.expect.element('@noResults').not.to.be.present
-            return this
+        this.verify.visible('@resultsBox', 8000)
+        this.expect.element('@noResults').not.to.be.present
+        return this
     }
 }
 module.exports = {
@@ -117,6 +115,7 @@ module.exports = {
             locateStrategy: 'xpath'
         },
         // Create new user login from mem checkout page
+        memDetails: '#membership_details',
         signUp: {
             selector: '(//a[@id="login-signup"])[3]',
             locateStrategy: 'xpath'
@@ -173,6 +172,11 @@ module.exports = {
         billLast: '#billing_last_name',
         billAddress: '#billing_address_1',
         billCity: '#billing_city',
+        arrow: '.select2-selection__arrow',
+        billState: {
+            selector: '//input[@class="select2-search__field"]',
+            locateStrategy: 'xpath'
+        },
         billZip: '#billing_postcode',
         placeOrder: '#place_order',
         orderConf: '.woocommerce-notice',

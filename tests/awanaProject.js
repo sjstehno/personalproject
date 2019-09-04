@@ -8,8 +8,8 @@ module.exports = {
     after: browser => {
         awanaPage.end()
     },
-        'Register new church': browser => {
-            awanaPage
+    'Register new church': browser => {
+        awanaPage
             .navigate()
             .maximizeWindow()
             // Hover over "Shop"
@@ -35,17 +35,12 @@ module.exports = {
             .click('@tabBtn')
             .waitForElementVisible('@adopt', 8000)
             .click('@adopt')
-            // Can't click the top "Finish" button
-            // .useCss()
-            // .click('#otherActionsButton')
-            // Can't click the bottom "Finish button either
-            // .click('(//button[@data-action="exit"])[2]')
-            // .click('(//button[@class="btn btn-main btn-lg btn-done-signing"])[1]')
-            // Forcing test to re-direct to checkout URL
-            .navigate('https://sarahs-test-awananetwork.pantheonsite.io/checkout/')
+            .pause(3000)
+            .click("#action-bar-btn-finish")
             // Create a login
-            .waitForElementVisible('@signUp')
+            .waitForElementVisible('@memDetails', 8000)
             .click('@signUp')
+            .pause(1500)
             .createLoginNewMem(testEmail)
             // Checkout page
             .waitForElementVisible('@selectChurch', 10000)
@@ -60,26 +55,23 @@ module.exports = {
             .setValue('@physicalCity', "Streamwood")
             .setValue('@physicalZip', "60107")
             .click('@stateIL')
-            // I don't think I need the following step
-            // .click('option[value="United States (US)"]')
             .click('@pastor')
             .setValue('@billFirst', "Auto")
             .setValue('@billLast', "Test")
             .setValue('@billAddress', "1 E Bode Rd")
             .setValue('@billCity', "Streamwood")
-            .setValue('@billZip', '60107')
-            // Unable to set the billing state
-            .click('.select2')
+            .click('@arrow')
             .useXpath()
-            .waitForElementVisible('//input[@class="select2-search__field"]')
-            .setValue('//input[@class="select2-search__field"]', ["Illinois", browser.Keys.ENTER])
-            .pause()
-            // .click('//li[@id="select2-billing_state-result-99eg-IL"]')
+            .setValue('@billState', ["Illinois", browser.Keys.TAB])
+            .pause(5000)
+            .setValue('@billZip', '60107')
+            .pause(7000)
             // Submit order
             .waitForElementVisible('@placeOrder', 10000)
             .click('@placeOrder')
+            .pause(200)
+            .click('@placeOrder')
             .waitForElementVisible('@orderConf', 10000)
-            .pause()
     },
     'Download a curriculum sample': browser => {
         awanaPage
@@ -132,12 +124,12 @@ module.exports = {
             .click('@findUSM')
             // Select state and county
             .waitForElementVisible('@stateInput', 8000)
-            .click(dropdowns[Math.floor(Math.random()*dropdowns.length)])
+            .click(dropdowns[Math.floor(Math.random() * dropdowns.length)])
             .waitForElementVisible('@boxEmpty', 8000)
             .click('@county')
             .moveToElement('@boxName', 200, 50)
             .verify.visible('@boxName')
-            .saveScreenshot('../testScreenshots/findAMissionary' + (+new Date).toString() + '.png')
+            .saveScreenshot('testScreenshots/findAMissionary' + (+new Date).toString() + '.png')
     },
     'Search by keyword': browser => {
         awanaPage
@@ -149,13 +141,13 @@ module.exports = {
     },
     'Search leader resources': browser => {
         awanaPage
-        .navigate()
-        .maximizeWindow()
-        // Hover over "More"
-        .moveToElement('@more', 5, 5)
-        .click('@leaderResources')
-        .click('@cubbiesRadio')
-        .verify.visible('@appleseed', 8000)
+            .navigate()
+            .maximizeWindow()
+            // Hover over "More"
+            .moveToElement('@more', 5, 5)
+            .click('@leaderResources')
+            .click('@cubbiesRadio')
+            .verify.visible('@appleseed', 8000)
     },
     'Create a user login': browser => {
         awanaPage
